@@ -1,5 +1,5 @@
 //
-//  EZSwiftExtensionsTestsString.swift
+//  StringTests.swift
 //  EZSwiftExtensions
 //
 //  Created by Valentino Urbano on 29/01/16.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import EZSwiftExtensions
 
-class EZSwiftExtensionsTestsString: XCTestCase {
+class StringTests: XCTestCase {
     var string: String!
 
     override func setUp() {
@@ -20,7 +20,7 @@ class EZSwiftExtensionsTestsString: XCTestCase {
     func testSubscript() {
         XCTAssertEqual(string[2], "2")
         XCTAssertEqual(string[9], "9")
-        XCTAssertEqual(string[0...9], "0123456789")
+        XCTAssertEqual(string[0..<10], "0123456789")
         XCTAssertEqual(string[3..<5], "34")
     }
 
@@ -110,10 +110,8 @@ class EZSwiftExtensionsTestsString: XCTestCase {
         XCTAssertEqual(string, "EzSWIFTextensIonS")
     }
 
-    func testIsOnlyEmptySpacesAndNewLineCharacters() {
+    func testIsBlank() {
         let emptyString = " \n "
-        XCTAssertFalse(string.isOnlyEmptySpacesAndNewLineCharacters())
-        XCTAssertTrue(emptyString.isOnlyEmptySpacesAndNewLineCharacters())
         XCTAssertFalse(string.isBlank)
         XCTAssertTrue(emptyString.isBlank)
     }
@@ -147,10 +145,8 @@ class EZSwiftExtensionsTestsString: XCTestCase {
     }
 
     func testContains() {
-        XCTAssertTrue(string.contains("01"))
-        XCTAssertTrue(string.contains("01", compareOption: NSStringCompareOptions.AnchoredSearch))
-        XCTAssertFalse(string.contains("12", compareOption: NSStringCompareOptions.AnchoredSearch))
-        XCTAssertFalse(string.contains("h"))
+        XCTAssertTrue(string.contains("01", compareOption: String.CompareOptions.anchored))
+        XCTAssertFalse(string.contains("12", compareOption: String.CompareOptions.anchored))
     }
 
     func testConversions() {
@@ -160,7 +156,7 @@ class EZSwiftExtensionsTestsString: XCTestCase {
         XCTAssertNotNil(string.toFloat())
         XCTAssertEqual(String(10.253, precision: 2), "10.25")
         XCTAssertEqual(String(10.257, precision: 2), "10.26")
-        XCTAssertTrue(string.toNSString.isKindOfClass(NSString.self))
+        XCTAssertTrue(string.toNSString.isKind(of: NSString.self))
     }
 
     func testIsIncludeEmoji() {
@@ -198,5 +194,19 @@ class EZSwiftExtensionsTestsString: XCTestCase {
         default:
             XCTAssertTrue(false)
         }
+    }
+    
+    func testToBool() {
+        let bool1 = "true"
+        let bool2 = "false"
+        let bool3 = "lolol"
+        let bool4 = "TRUE"
+        let bool5 = "True"
+        
+        XCTAssertTrue(bool1.toBool()!)
+        XCTAssertTrue(bool4.toBool()!)
+        XCTAssertTrue(bool5.toBool()!)
+        XCTAssertFalse(bool2.toBool()!)
+        XCTAssertNil(bool3.toBool())
     }
 }

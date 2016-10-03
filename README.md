@@ -4,12 +4,17 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)  
 [![License](https://img.shields.io/cocoapods/l/EZSwiftExtensions.svg?style=flat)](https://cocoapods.org/pods/EZSwiftExtensions)
 [![Platform](https://img.shields.io/cocoapods/p/EZSwiftExtensions.svg?style=flat)](http://cocoapods.org/pods/EZSwiftExtensions)
-[![Language](https://img.shields.io/badge/swift-2.1-orange.svg)](http://swift.org)
+[![Language](https://img.shields.io/badge/swift-3.0-orange.svg)](http://swift.org)
+[![Language](https://img.shields.io/badge/swift-2.3-orange.svg)](http://swift.org)
+
 [![Build Status](https://travis-ci.org/goktugyil/EZSwiftExtensions.svg?branch=master)](https://travis-ci.org/goktugyil/EZSwiftExtensions)
+[![codecov.io](https://codecov.io/gh/goktugyil/EZSwiftExtensions/branch/master/graphs/badge.svg)](https://codecov.io/gh/goktugyil/EZSwiftExtensions/branch/master)
 
 <img src="charizard.png" width="200">
 
 How Swift standard types and classes were supposed to work. A collection of useful extensions for the Swift Standard Library, Foundation, and UIKit.
+
+- [Gitter chat room](https://gitter.im/EZSwiftExtensions/Lobby)
 
 ## Contents
 
@@ -50,8 +55,8 @@ print(ez.appVersionAndBuild) // v0.3(7)
 Easily access your ViewController on top of your view stack:
 
 ``` swift
-ez.topMostVC?.presentViewController(myAlertController, animated: true, completion: nil)
-// topMostVC is your rootViewController
+ez.topMostViewController?.presentViewController(myAlertController, animated: true, completion: nil)
+// topMostViewController is your rootViewController
 // Intended for showing small VCs like UIAlertController
 ```
 
@@ -1167,7 +1172,11 @@ You can use [CocoaPods](http://cocoapods.org/) to install `EZSwiftExtensions` by
 ```ruby
 platform :ios, '8.0'
 use_frameworks!
-pod 'EZSwiftExtensions'
+pod 'EZSwiftExtensions' #Stable release for Swift 3.0
+
+pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git' #Latest release for Swift 3.0
+pod 'EZSwiftExtensions', :git => 'https://github.com/goktugyil/EZSwiftExtensions.git', :branch => 'Swift2.3' #For Swift 2.3
+pod 'EZSwiftExtensions', '~> 1.6' #For Swift 2.2
 ```
 
 To get the full benefits import `EZSwiftExtensions` wherever you import UIKit

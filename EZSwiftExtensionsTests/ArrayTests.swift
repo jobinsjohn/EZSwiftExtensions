@@ -1,5 +1,5 @@
 //
-//  EZArrayExtensionsTests.swift
+//  ArrayTests.swift
 //  EZSwiftExtensions
 //
 //  Created by Valentino Urbano on 28/01/16.
@@ -9,7 +9,7 @@
 import XCTest
 import EZSwiftExtensions
 
-class EZSwiftExtensionsTestsArray: XCTestCase {
+class ArrayTests: XCTestCase {
     var numberArray: [Int] = []
 
     override func setUp() {
@@ -20,20 +20,20 @@ class EZSwiftExtensionsTestsArray: XCTestCase {
     }
 
     func testIndexesOf() {
-        var indexes = numberArray.indexesOf(1)
+        var indexes = numberArray.indexes(of: 1)
         XCTAssertEqual(indexes, [1, 6])
 
-        indexes = numberArray.indexesOf(12345)
+        indexes = numberArray.indexes(of: 12345)
         XCTAssertEqual(indexes, [])
     }
 
     func testRemoveObject() {
         let copyArray = numberArray
-        numberArray.removeObject(12345)
+        numberArray.removeFirstObject(12345)
         XCTAssertEqual(numberArray, copyArray)
 
         let compareArray = [0, 2, 3, 4, 5, 1]
-        numberArray.removeObject(1)
+        numberArray.removeFirstObject(1)
         XCTAssertEqual(numberArray, compareArray)
     }
 
@@ -55,7 +55,7 @@ class EZSwiftExtensionsTestsArray: XCTestCase {
 
     func testContainsArray() {
         let array = [Int](2...4)
-        XCTAssertTrue(numberArray.containsArray(array))
+        XCTAssertTrue(numberArray.contains(array: array))
     }
 
     func testRandom() {
@@ -95,22 +95,19 @@ class EZSwiftExtensionsTestsArray: XCTestCase {
         XCTAssertEqual(numberArray.takeMax(2).count, 2)
     }
 
-    func testEach() {
-        var sameArray: [Int] = []
-        numberArray.forEach { sameArray.append($0) }
-        XCTAssertEqual(numberArray, sameArray)
-
-        var indexArray: [Int] = []
-        numberArray.forEach { indexArray.append($0.0) }
-        XCTAssertEqual(indexArray, [Int](0..<numberArray.count))
-    }
-
-    func testMapFilter() {
-        let filtered = numberArray.mapFilter { number -> String? in
-            return number == 1 ? String(number) : nil
+    func testForEachEnumerated() {
+        let someArray = [1,2,3,4,10]
+        var indexCount = 0
+        var totalIndexes = 0
+        var totalNumbers = 0
+        someArray.forEachEnumerated { (index, element) in
+            indexCount += 1
+            totalIndexes += index
+            totalNumbers += element
         }
-
-        XCTAssertEqual(filtered.count, 2)
+        XCTAssertEqual(indexCount, 5)
+        XCTAssertEqual(totalIndexes, 10)
+        XCTAssertEqual(totalNumbers, 20)
     }
 
     func testUnion() {
@@ -138,9 +135,10 @@ class EZSwiftExtensionsTestsArray: XCTestCase {
         let a: [Int]? = [1, 2, 3]
         let b: [Int]? = [1, 2, 3]
         let c: [Int]? = nil
-
+        
         XCTAssertTrue(a == b)
         XCTAssertFalse(a == c)
+        XCTAssertFalse(c == b)
     }
 
     func testShuffle() {
@@ -152,8 +150,8 @@ class EZSwiftExtensionsTestsArray: XCTestCase {
         XCTAssertEqual(numberArray.count, copyArray.count)
 
         for e in copyArray {
-            if let i = numberArray.indexOf(e) {
-                numberArray.removeAtIndex(i)
+            if let i = numberArray.index(of: e) {
+                numberArray.remove(at: i)
             }
         }
         XCTAssertEqual(numberArray, [])
